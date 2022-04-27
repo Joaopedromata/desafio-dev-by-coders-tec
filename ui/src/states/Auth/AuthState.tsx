@@ -44,6 +44,57 @@ const AuthState: React.FC<Props> = ({ children }: Props) => {
     }
   }
 
+  const signUp = async (email: string, password: string) => {
+    dispatch({
+      type: "SIGNUP"
+    })
+
+    try {
+      await Auth?.signUp({
+        username: email,
+        password
+      })
+
+      dispatch({
+        type: "SIGNUP_SUCCESS"
+      })
+
+      navigate("/code", {
+        state: {
+          email
+        }
+      })
+    } catch (error) {
+      const { message } = error as ICognitoError
+      dispatch({
+        type: "SIGNUP_ERROR",
+        payload: { message: translateCognitoMesssages(message) }
+      })
+    }
+  }
+
+  const sendCode = async (email: string, code: string) => {
+    dispatch({
+      type: "SEND_CODE"
+    })
+
+    try {
+      await Auth?.confirmSignUp(email, code)
+
+      dispatch({
+        type: "SEND_CODE_SUCCESS"
+      })
+
+      navigate("/")
+    } catch (error) {
+      const { message } = error as ICognitoError
+      dispatch({
+        type: "SEND_CODE_ERROR",
+        payload: { message: translateCognitoMesssages(message) }
+      })
+    }
+  }
+
   const logout = useCallback(async () => {
     await Auth?.signOut()
 
@@ -55,7 +106,9 @@ const AuthState: React.FC<Props> = ({ children }: Props) => {
   const contextValue = {
     ...state,
     signIn,
-    logout
+    logout,
+    signUp,
+    sendCode
   }
 
   return (

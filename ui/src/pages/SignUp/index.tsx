@@ -1,15 +1,14 @@
-import { Link } from "react-router-dom"
+import { useContext } from "react"
 import styled from "styled-components"
 import AuthPage from "../../components/AuthPage"
-import PrimaryButton from "../../components/PrimaryButton"
 import PrimaryInput from "../../components/PrimaryInput"
+import { AuthContext } from "../../states/Auth/AuthContext"
 import * as yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useForm } from "react-hook-form"
-import { useContext } from "react"
-import { AuthContext } from "../../states/Auth/AuthContext"
+import PrimaryButton from "../../components/PrimaryButton"
 
-interface ILoginInput {
+interface IPasswordInput {
   email: string
   password: string
 }
@@ -23,22 +22,20 @@ const schema = yup.object().shape({
   password: yup.string().required("Digite sua senha")
 })
 
-const Login: React.FC<IProps> = ({ className }: IProps) => {
-  const { signIn, isSignIn, authError } = useContext(AuthContext)
-
+const SignUp: React.FC<IProps> = ({ className }: IProps) => {
+  const { authError, signUp, isSignUp } = useContext(AuthContext)
   const {
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm<ILoginInput>({
+  } = useForm<IPasswordInput>({
     resolver: yupResolver(schema)
   })
-
   return (
     <AuthPage className={className}>
       <form
         onSubmit={handleSubmit(({ email, password }) =>
-          signIn(email, password)
+          signUp(email, password)
         )}
       >
         <PrimaryInput
@@ -58,29 +55,19 @@ const Login: React.FC<IProps> = ({ className }: IProps) => {
           }
           {...register("password")}
         />
-        <Link to='/signup'>Ainda não tenho conta</Link>
-        <PrimaryButton type='submit' isLoading={isSignIn}>
-          Entrar
+        <PrimaryButton type='submit' isLoading={isSignUp}>
+          Criar Conta
         </PrimaryButton>
       </form>
     </AuthPage>
   )
 }
 
-export default styled(Login)`
+export default styled(SignUp)`
   form {
     width: 300px;
     display: flex;
     flex-direction: column;
     gap: 8px;
-
-    a {
-      margin-bottom: 8px;
-      width: 100%;
-      text-align: center;
-      color: ${({ theme }) => theme?.color?.fontPrimary};
-      font-size: 14px;
-      font-weight: 400;
-    }
   }
 `
