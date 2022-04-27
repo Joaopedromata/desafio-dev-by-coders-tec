@@ -18,7 +18,7 @@ const Home: React.FC<IProps> = ({ className }: IProps) => {
           Icon={() => <FiUpload />}
         />
         <HomeCard
-          to='/upload'
+          to='/report'
           name='Relatório'
           instruction='Veja o relatório de todas as lojas compiladas'
           Icon={() => <FiClipboard />}

@@ -1,6 +1,5 @@
 import { useEffect } from "react"
 import { useContext } from "react"
-import { useNavigate } from "react-router-dom"
 import styled from "styled-components"
 import DefaultCard from "../../components/DefaultCard"
 import DefaultPage from "../../components/DefaultPage"
@@ -10,20 +9,18 @@ import { FinanceContext } from "../../states/Finances/FinancesContext"
 import { formatDate } from "../../utils/date"
 import { formatDocumentNumber } from "../../utils/document"
 import { formatValue } from "../../utils/number"
+import { FiLoader } from "react-icons/fi"
 
 interface IProps {
   className?: string
 }
 
-const UploadResult: React.FC<IProps> = ({ className }: IProps) => {
-  const { finance } = useContext(FinanceContext)
-  const navigate = useNavigate()
+const Report: React.FC<IProps> = ({ className }: IProps) => {
+  const { getReport, isGettingReport, report } = useContext(FinanceContext)
 
   useEffect(() => {
-    if (finance?.data?.length === 0) {
-      navigate("/")
-    }
-  }, [finance, navigate])
+    getReport()
+  }, [getReport])
 
   const columns = [
     { title: "Tipo", accessor: "type" },
@@ -46,22 +43,53 @@ const UploadResult: React.FC<IProps> = ({ className }: IProps) => {
   ]
 
   return (
-    <DefaultPage className={className} title='Resultado' back='/upload'>
+    <DefaultPage className={className} title='Relatório' back='/'>
       <DefaultCard>
-        <Table columns={columns} rows={finance?.data} />
-        <div className={"upload-result__result--wrapper"}>
-          <h6>Saldo:</h6>
-          <h6 className={finance?.totalAmount < 0 ? "negative" : "positive"}>
-            {formatValue(finance?.totalAmount)}
-          </h6>
-        </div>
+        {isGettingReport ? (
+          <div className='report__loader--wrapper'>
+            <FiLoader />
+          </div>
+        ) : (
+          <>
+            <Table columns={columns} rows={report?.data} />
+            <div className={"report__result--wrapper"}>
+              <h6>Saldo:</h6>
+              <h6 className={report?.totalAmount < 0 ? "negative" : "positive"}>
+                {formatValue(report?.totalAmount)}
+              </h6>
+            </div>
+          </>
+        )}
       </DefaultCard>
     </DefaultPage>
   )
 }
 
-export default styled(UploadResult)`
-  .upload-result__result--wrapper {
+export default styled(Report)`
+  .report__loader--wrapper {
+    width: 60vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40vh;
+
+    svg {
+      animation: rotation 4s infinite linear;
+      height: 48px;
+      width: 48px;
+
+      @keyframes rotation {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(359deg);
+        }
+      }
+    }
+  }
+
+  .report__result--wrapper {
     h6 {
       font-size: 16px;
       padding: 4px;

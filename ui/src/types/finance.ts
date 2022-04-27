@@ -1,7 +1,10 @@
 export interface IFinanceState {
-  uploadFile: (file: File) => void
+  uploadFile: (file: File) => Promise<void>
+  getReport: () => Promise<void>
   isUploadingFile: boolean
+  isGettingReport: boolean
   finance: IFinance
+  report: IFinance
 }
 
 export interface IFinance {
@@ -10,6 +13,7 @@ export interface IFinance {
 }
 
 export interface IFinanceData {
+  id?: string
   type: number
   date: string
   value: number

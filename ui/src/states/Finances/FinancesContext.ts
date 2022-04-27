@@ -2,8 +2,14 @@ import { createContext } from "react"
 import { IFinanceState } from "../../types/finance"
 
 const initialState: IFinanceState = {
-  uploadFile: () => undefined,
+  uploadFile: () => Promise.resolve(),
+  getReport: () => Promise.resolve(),
   isUploadingFile: false,
+  isGettingReport: false,
+  report: {
+    totalAmount: 0,
+    data: []
+  },
   finance: {
     totalAmount: 0,
     data: []

@@ -3,7 +3,7 @@ from rest_framework.response import Response
 
 from core.helpers.calculate_total_amount import CalculateTotalAmount
 from .helpers.parse_CNAB_file import ParseCNABFile
-from . import models
+from . import models, serializers
 
 class FinancesView(views.APIView):
   def post(self, request):
@@ -44,3 +44,14 @@ class FinancesView(views.APIView):
 
     models.Finances.objects.bulk_create(bulk_create_list)
     return Response(format_response,status=201)
+
+  def get(self, request):
+    queryset = models.Finances.objects.all()
+    data = serializers.FinancesSerializer(queryset, many=True).data
+    calculate_total_amount = CalculateTotalAmount(data)
+
+    format_response = {
+      'data': data,
+      'total_amount': calculate_total_amount.get_total_amount()
+    }
+    return Response(format_response, status=200)

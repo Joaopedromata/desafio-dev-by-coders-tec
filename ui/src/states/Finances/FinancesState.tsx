@@ -41,9 +41,32 @@ const FinanceState: React.FC<Props> = ({ children }: Props) => {
     }
   }, [])
 
+  const getReport = useCallback(async () => {
+    dispatch({
+      type: "GET_REPORT"
+    })
+
+    try {
+      const response = await api?.get("finances")
+
+      if (response?.status === 200) {
+        dispatch({
+          type: "GET_REPORT_SUCCESS",
+          payload: response?.data
+        })
+      }
+    } catch {
+      toast.error("Ocorreu um erro ao fazer a requisição")
+      dispatch({
+        type: "GET_REPORT_ERROR"
+      })
+    }
+  }, [])
+
   const contextValue = {
     ...state,
-    uploadFile
+    uploadFile,
+    getReport
   }
 
   return (
