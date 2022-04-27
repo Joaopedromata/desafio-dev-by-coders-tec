@@ -4,8 +4,10 @@ from rest_framework.response import Response
 from core.helpers.calculate_total_amount import CalculateTotalAmount
 from .helpers.parse_CNAB_file import ParseCNABFile
 from . import models, serializers
+from rest_framework.permissions import IsAuthenticated
 
 class FinancesView(views.APIView):
+  permission_classes = [IsAuthenticated]
   def post(self, request):
     file = request.data['file']
 

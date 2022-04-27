@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 import os
 import sys
+import json
+from urllib import request
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -44,7 +46,7 @@ INSTALLED_APPS = [
     'corsheaders'
 ]
 
-LOCAL_APPS = ['core']
+LOCAL_APPS = ['core', 'account']
 
 INSTALLED_APPS += LOCAL_APPS
 
@@ -56,8 +58,23 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'django.contrib.auth.middleware.RemoteUserMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.RemoteUserBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'core.api.permissions.DenyAny',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    ),
+}
 
 ROOT_URLCONF = 'setup.urls'
 
@@ -143,3 +160,31 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CSRF_TRUSTED_ORIGINS = ['http://localhost:3000']
 CORS_ALLOW_ALL_ORIGINS = True
+
+
+AUTH_USER_MODEL = 'account.User'
+
+
+COGNITO_AWS_REGION = 'us-east-1'
+COGNITO_USER_POOL = 'us-east-1_3c217diKB'
+COGNITO_AUDIENCE = '7i2asc1u56ivq56clph8oobnna'
+COGNITO_POOL_URL = None
+
+rsa_keys = {}
+
+if COGNITO_AWS_REGION and COGNITO_USER_POOL:
+    COGNITO_POOL_URL = 'https://cognito-idp.{}.amazonaws.com/{}'.format(
+        COGNITO_AWS_REGION, COGNITO_USER_POOL)
+    pool_jwks_url = COGNITO_POOL_URL + '/.well-known/jwks.json'
+    jwks = json.loads(request.urlopen(pool_jwks_url).read())
+    rsa_keys = {key['kid']: json.dumps(key) for key in jwks['keys']}
+
+JWT_AUTH = {
+    'JWT_PAYLOAD_GET_USERNAME_HANDLER': 'core.utils.jwt.get_username_from_payload_handler',
+    'JWT_DECODE_HANDLER': 'core.utils.jwt.cognito_jwt_decode_handler',
+    'JWT_PUBLIC_KEY': rsa_keys,
+    'JWT_ALGORITHM': 'RS256',
+    'JWT_AUDIENCE': COGNITO_AUDIENCE,
+    'JWT_ISSUER': COGNITO_POOL_URL,
+    'JWT_AUTH_HEADER_PREFIX': 'Bearer',
+}
