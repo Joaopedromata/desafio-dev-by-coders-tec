@@ -1,6 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 import { IFinanceState } from "../../types/finance"
 
 interface FinanceActions {
@@ -15,7 +13,8 @@ const actionHandler = (
     isUploadingFile: true
   },
   UPLOAD_FILE_SUCCESS: {
-    isUploadingFile: false
+    isUploadingFile: false,
+    finance: payload
   },
   UPLOAD_FILE_ERROR: {
     isUploadingFile: false

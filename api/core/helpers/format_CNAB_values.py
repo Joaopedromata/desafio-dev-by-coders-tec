@@ -20,3 +20,6 @@ class FormatCNABValues:
 
   def format_name(self, value):
     return value.strip()
+
+  def format_type(self, value):
+    return int(value)

@@ -21,7 +21,7 @@ const DefaultPage: React.FC<IProps> = ({
     <div className={className}>
       <section>
         <header>
-          {back ? <FiArrowLeft onClick={() => navigate("/")} /> : <div />}
+          {back ? <FiArrowLeft onClick={() => navigate(back)} /> : <div />}
           <FiLogOut />
         </header>
         <div className='default_page__title--wrapper'>

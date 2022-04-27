@@ -3,6 +3,7 @@ import api from "../../services/api"
 import { FinanceContext, initialState } from "./FinancesContext"
 import FinanceReducer from "./FinancesReducer"
 import { toast } from "react-toastify"
+import { useNavigate } from "react-router-dom"
 
 interface Props {
   children: ReactNode
@@ -10,6 +11,7 @@ interface Props {
 
 const FinanceState: React.FC<Props> = ({ children }: Props) => {
   const [state, dispatch] = useReducer(FinanceReducer, initialState)
+  const navigate = useNavigate()
 
   const uploadFile = useCallback(async (file: File) => {
     dispatch({
@@ -29,6 +31,7 @@ const FinanceState: React.FC<Props> = ({ children }: Props) => {
           type: "UPLOAD_FILE_SUCCESS",
           payload: response?.data
         })
+        navigate("/upload/result")
       }
     } catch {
       toast.error("Ocorreu um erro ao fazer a importação do arquivo")

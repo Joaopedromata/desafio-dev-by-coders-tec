@@ -1,6 +1,5 @@
 from core.helpers.format_CNAB_values import FormatCNABValues
 
-
 class ParseCNABFile(FormatCNABValues):
   def __init__(self, file) -> None:
     self.file = file
@@ -26,7 +25,7 @@ class ParseCNABFile(FormatCNABValues):
     for row in parsed_to_list:
       if self.validate_row(row):
         obj = {}
-        obj['type'] = row[0:1]
+        obj['type'] = self.format_type(row[0:1])
         obj['date'] = self.format_date(row[1:9])
         obj['value'] = self.format_value(row[9:19])
         obj['document_number'] = row[19:30]

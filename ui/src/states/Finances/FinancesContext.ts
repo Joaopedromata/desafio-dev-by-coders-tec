@@ -3,7 +3,11 @@ import { IFinanceState } from "../../types/finance"
 
 const initialState: IFinanceState = {
   uploadFile: () => undefined,
-  isUploadingFile: false
+  isUploadingFile: false,
+  finance: {
+    totalAmount: 0,
+    data: []
+  }
 }
 
 const FinanceContext = createContext<IFinanceState>(initialState)

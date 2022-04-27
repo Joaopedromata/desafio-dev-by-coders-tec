@@ -1,5 +1,7 @@
 from rest_framework import views
 from rest_framework.response import Response
+
+from core.helpers.calculate_total_amount import CalculateTotalAmount
 from .helpers.parse_CNAB_file import ParseCNABFile
 from . import models
 
@@ -33,5 +35,12 @@ class FinancesView(views.APIView):
         )
       )
 
+    calculate_total_amount = CalculateTotalAmount(CNAB_file_values)
+
+    format_response = {
+      'data': CNAB_file_values,
+      'total_amount': calculate_total_amount.get_total_amount()
+    }
+
     models.Finances.objects.bulk_create(bulk_create_list)
-    return Response(status=201)
+    return Response(format_response,status=201)
