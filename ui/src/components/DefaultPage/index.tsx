@@ -1,21 +1,29 @@
 import { ReactNode } from "react"
 import styled from "styled-components"
+import { FiArrowLeft, FiLogOut } from "react-icons/fi"
+import { useNavigate } from "react-router-dom"
 
 interface IProps {
   className?: string
   children: ReactNode
   title: string
+  back?: string
 }
 
 const DefaultPage: React.FC<IProps> = ({
   className,
   children,
-  title
+  title,
+  back
 }: IProps) => {
+  const navigate = useNavigate()
   return (
     <div className={className}>
       <section>
-        <header>dsna</header>
+        <header>
+          {back ? <FiArrowLeft onClick={() => navigate("/")} /> : <div />}
+          <FiLogOut />
+        </header>
         <div className='default_page__title--wrapper'>
           <h1>{title}</h1>
           <div />
@@ -27,7 +35,31 @@ const DefaultPage: React.FC<IProps> = ({
 }
 
 export default styled(DefaultPage)`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
   section {
+    header {
+      width: calc(100% - 80px);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding: 0 40px;
+      height: 50px;
+      svg {
+        height: 32px;
+        width: 32px;
+        color: ${({ theme }) => theme?.color?.secondary};
+        transition: all 300ms;
+        cursor: pointer;
+
+        &:hover {
+          transform: scale(1.1);
+        }
+      }
+    }
     background: ${({ theme }) => theme?.color?.primary};
     height: 40vh;
     width: 100%;
@@ -55,5 +87,6 @@ export default styled(DefaultPage)`
 
   .default_page__content--container {
     padding: 24px 60px;
+    max-width: 1000px;
   }
 `

@@ -1,22 +1,26 @@
 import { ComponentType } from "react"
 import styled from "styled-components"
 import DefaultCard from "../DefaultCard"
+import { useNavigate } from "react-router-dom"
 
 interface IProps {
   className?: string
   name: string
   Icon: ComponentType
   instruction: string
+  to: string
 }
 
 const HomeCard: React.FC<IProps> = ({
   className,
   name,
   Icon,
+  to,
   instruction
 }: IProps) => {
+  const navigate = useNavigate()
   return (
-    <DefaultCard className={className}>
+    <DefaultCard className={className} onClick={() => navigate(to)}>
       <div className='home-card__header--wrapper'>
         <h1>{name}</h1>
         <div />
