@@ -3,6 +3,7 @@ import { IAuthState } from "../../types/auth"
 
 const initialState: IAuthState = {
   signIn: () => Promise.resolve(),
+  logout: () => Promise.resolve(),
   isSignIn: false,
   authError: undefined
 }

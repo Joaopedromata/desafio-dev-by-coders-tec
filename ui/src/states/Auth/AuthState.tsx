@@ -1,4 +1,4 @@
-import { ReactNode, useReducer } from "react"
+import { ReactNode, useCallback, useReducer } from "react"
 import { AuthContext, initialState } from "./AuthContext"
 import AuthReducer from "./AuthReducer"
 import { Auth } from "aws-amplify"
@@ -44,9 +44,18 @@ const AuthState: React.FC<Props> = ({ children }: Props) => {
     }
   }
 
+  const logout = useCallback(async () => {
+    await Auth?.signOut()
+
+    localStorage?.removeItem("@finance/token")
+
+    navigate("/")
+  }, [navigate])
+
   const contextValue = {
     ...state,
-    signIn
+    signIn,
+    logout
   }
 
   return (

@@ -2,6 +2,8 @@ import { ReactNode } from "react"
 import styled from "styled-components"
 import { FiArrowLeft, FiLogOut } from "react-icons/fi"
 import { Navigate, useNavigate } from "react-router-dom"
+import { useContext } from "react"
+import { AuthContext } from "../../states/Auth/AuthContext"
 
 interface IProps {
   className?: string
@@ -17,6 +19,7 @@ const DefaultPage: React.FC<IProps> = ({
   back
 }: IProps) => {
   const navigate = useNavigate()
+  const { logout } = useContext(AuthContext)
 
   const token = localStorage?.getItem("@finance/token")
 
@@ -27,7 +30,7 @@ const DefaultPage: React.FC<IProps> = ({
           <section>
             <header>
               {back ? <FiArrowLeft onClick={() => navigate(back)} /> : <div />}
-              <FiLogOut />
+              <FiLogOut onClick={logout} />
             </header>
             <div className='default_page__title--wrapper'>
               <h1>{title}</h1>

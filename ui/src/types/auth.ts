@@ -1,5 +1,6 @@
 export interface IAuthState {
   signIn: (email: string, password: string) => Promise<void>
+  logout: () => void
   isSignIn: boolean
   authError: IAuthError | undefined
 }
