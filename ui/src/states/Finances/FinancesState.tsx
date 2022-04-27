@@ -13,33 +13,36 @@ const FinanceState: React.FC<Props> = ({ children }: Props) => {
   const [state, dispatch] = useReducer(FinanceReducer, initialState)
   const navigate = useNavigate()
 
-  const uploadFile = useCallback(async (file: File) => {
-    dispatch({
-      type: "UPLOAD_FILE"
-    })
-
-    const data = new FormData()
-    data.append("file", file)
-
-    try {
-      const response = await api?.post("finances", data, {
-        headers: { "Content-Type": "multipart/form-data" }
-      })
-
-      if (response?.status === 201) {
-        dispatch({
-          type: "UPLOAD_FILE_SUCCESS",
-          payload: response?.data
-        })
-        navigate("/upload/result")
-      }
-    } catch {
-      toast.error("Ocorreu um erro ao fazer a importação do arquivo")
+  const uploadFile = useCallback(
+    async (file: File) => {
       dispatch({
-        type: "UPLOAD_FILE_ERROR"
+        type: "UPLOAD_FILE"
       })
-    }
-  }, [])
+
+      const data = new FormData()
+      data.append("file", file)
+
+      try {
+        const response = await api?.post("finances", data, {
+          headers: { "Content-Type": "multipart/form-data" }
+        })
+
+        if (response?.status === 201) {
+          dispatch({
+            type: "UPLOAD_FILE_SUCCESS",
+            payload: response?.data
+          })
+          navigate("/upload/result")
+        }
+      } catch {
+        toast.error("Ocorreu um erro ao fazer a importação do arquivo")
+        dispatch({
+          type: "UPLOAD_FILE_ERROR"
+        })
+      }
+    },
+    [navigate]
+  )
 
   const getReport = useCallback(async () => {
     dispatch({

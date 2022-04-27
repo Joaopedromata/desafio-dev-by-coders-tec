@@ -25,7 +25,7 @@ const Upload: React.FC<IProps> = ({ className }: IProps) => {
   })
 
   return (
-    <DefaultPage className={className} title='Importar arquivo' back='/'>
+    <DefaultPage className={className} title='Importar arquivo' back='/home'>
       <DefaultCard>
         <div className='upload__drag-and-drop--wrapper' {...getRootProps()}>
           <input {...getInputProps()} />

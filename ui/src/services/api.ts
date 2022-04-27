@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import axios, { AxiosRequestConfig, AxiosResponseTransformer } from "axios"
+import axios, { AxiosResponseTransformer } from "axios"
 import { API_HOST } from "../utils/envs"
 import humps from "humps"
 
@@ -7,7 +7,15 @@ const api = axios.create({
   baseURL: API_HOST
 })
 
-api.interceptors.request.use((config: AxiosRequestConfig) => {
+api.interceptors.request.use((config: any) => {
+  const token = localStorage.getItem("@finance/token")
+
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`
+  } else {
+    delete config.headers.Authorization
+  }
+
   config.transformResponse = [
     ...(config.transformResponse as AxiosResponseTransformer[]),
     (data: any, headers: any) => {

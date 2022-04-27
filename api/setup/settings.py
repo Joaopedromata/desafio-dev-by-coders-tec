@@ -167,7 +167,7 @@ AUTH_USER_MODEL = 'account.User'
 
 COGNITO_AWS_REGION = 'us-east-1'
 COGNITO_USER_POOL = 'us-east-1_3c217diKB'
-COGNITO_AUDIENCE = '7i2asc1u56ivq56clph8oobnna'
+COGNITO_AUDIENCE = '206p0rkgvqrdkpvdvhs1jg03'
 COGNITO_POOL_URL = None
 
 rsa_keys = {}

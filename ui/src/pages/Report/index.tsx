@@ -43,7 +43,7 @@ const Report: React.FC<IProps> = ({ className }: IProps) => {
   ]
 
   return (
-    <DefaultPage className={className} title='Relatório' back='/'>
+    <DefaultPage className={className} title='Relatório' back='/home'>
       <DefaultCard>
         {isGettingReport ? (
           <div className='report__loader--wrapper'>

@@ -1,7 +1,7 @@
 import { ReactNode } from "react"
 import styled from "styled-components"
 import { FiArrowLeft, FiLogOut } from "react-icons/fi"
-import { useNavigate } from "react-router-dom"
+import { Navigate, useNavigate } from "react-router-dom"
 
 interface IProps {
   className?: string
@@ -17,20 +17,29 @@ const DefaultPage: React.FC<IProps> = ({
   back
 }: IProps) => {
   const navigate = useNavigate()
+
+  const token = localStorage?.getItem("@finance/token")
+
   return (
-    <div className={className}>
-      <section>
-        <header>
-          {back ? <FiArrowLeft onClick={() => navigate(back)} /> : <div />}
-          <FiLogOut />
-        </header>
-        <div className='default_page__title--wrapper'>
-          <h1>{title}</h1>
-          <div />
+    <>
+      {token ? (
+        <div className={className}>
+          <section>
+            <header>
+              {back ? <FiArrowLeft onClick={() => navigate(back)} /> : <div />}
+              <FiLogOut />
+            </header>
+            <div className='default_page__title--wrapper'>
+              <h1>{title}</h1>
+              <div />
+            </div>
+          </section>
+          <div className='default_page__content--container'>{children}</div>
         </div>
-      </section>
-      <div className='default_page__content--container'>{children}</div>
-    </div>
+      ) : (
+        <Navigate to='/' />
+      )}
+    </>
   )
 }
 
