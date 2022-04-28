@@ -1,85 +1,172 @@
-# Desafio programação - para vaga desenvolvedor
+# By-coders-test
 
-Por favor leiam este documento do começo ao fim, com muita atenção.
-O intuito deste teste é avaliar seus conhecimentos técnicos em programação.
-O teste consiste em parsear [este arquivo de texto(CNAB)](https://github.com/ByCodersTec/desafio-ruby-on-rails/blob/master/CNAB.txt) e salvar suas informações(transações financeiras) em uma base de dados a critério do candidato.
-Este desafio deve ser feito por você em sua casa. Gaste o tempo que você quiser, porém normalmente você não deve precisar de mais do que algumas horas.
+## 💻 Tecnologias utilizadas
 
-# Instruções de entrega do desafio
+- [Typescript](https://www.typescriptlang.org/)
+- [ReactJS](https://reactjs.org/)
+- [Python](https://python.org/)
+- [Django](https://djangoproject.com)
+- [Django-Rest-Framework](https://django-rest-framework.org/)
+- [Cognito](https://aws.amazon.com/pt/cognito/)
 
-1. Primeiro, faça um fork deste projeto para sua conta no Github (crie uma se você não possuir).
-2. Em seguida, implemente o projeto tal qual descrito abaixo, em seu clone local.
-3. Por fim, envie via email o projeto ou o fork/link do projeto para seu contato Bycoders_ com cópia para rh@bycoders.com.br.
+<hr />
 
-# Descrição do projeto
+## 🔥 Setup
 
-Você recebeu um arquivo CNAB com os dados das movimentações finanaceira de várias lojas.
-Precisamos criar uma maneira para que estes dados sejam importados para um banco de dados.
+- ### **Você deverá ter em sua máquina...**
 
-Sua tarefa é criar uma interface web que aceite upload do [arquivo CNAB](https://github.com/ByCodersTec/desafio-ruby-on-rails/blob/master/CNAB.txt), normalize os dados e armazene-os em um banco de dados relacional e exiba essas informações em tela.
+  - **[Node.js](https://nodejs.org/en/)**
+  - **[Git](https://git-scm.com/)**
+  - **[NPM](https://www.npmjs.com/)** or **[Yarn](https://yarnpkg.com/)**.
+  - **[Python3](https://python.org/)**
+  - **[PIP](https://pypi.org/)**
+  - **[Docker](https://www.docker.com/)**
 
-**Sua aplicação web DEVE:**
+## Existem duas opções para você rodar o projeto localmente:
 
-1. Ter uma tela (via um formulário) para fazer o upload do arquivo(pontos extras se não usar um popular CSS Framework )
-2. Interpretar ("parsear") o arquivo recebido, normalizar os dados, e salvar corretamente a informação em um banco de dados relacional, **se atente as documentações** que estão logo abaixo.
-3. Exibir uma lista das operações importadas por lojas, e nesta lista deve conter um totalizador do saldo em conta
-4. Ser escrita na sua linguagem de programação de preferência
-5. Ser simples de configurar e rodar, funcionando em ambiente compatível com Unix (Linux ou Mac OS X). Ela deve utilizar apenas linguagens e bibliotecas livres ou gratuitas.
-6. Git com commits atomicos e bem descritos
-7. PostgreSQL, MySQL ou SQL Server
-8. Ter testes automatizados
-9. Docker compose (Pontos extras se utilizar)
-10. Readme file descrevendo bem o projeto e seu setup
-11. Incluir informação descrevendo como consumir o endpoint da API
+- Utilizando Docker
+- Subindo os servidores manualmente
 
-**Sua aplicação web não precisa:**
+### Utilizando docker:
 
-1. Lidar com autenticação ou autorização (pontos extras se ela fizer, mais pontos extras se a autenticação for feita via OAuth).
-2. Ser escrita usando algum framework específico (mas não há nada errado em usá-los também, use o que achar melhor).
-3. Documentação da api.(Será um diferencial e pontos extras se fizer)
+```bash
+docker-compose-up
+```
 
-# Documentação do CNAB
+### Manualmente:
 
-| Descrição do campo  | Inicio | Fim | Tamanho | Comentário
-| ------------- | ------------- | -----| ---- | ------
-| Tipo  | 1  | 1 | 1 | Tipo da transação
-| Data  | 2  | 9 | 8 | Data da ocorrência
-| Valor | 10 | 19 | 10 | Valor da movimentação. *Obs.* O valor encontrado no arquivo precisa ser divido por cem(valor / 100.00) para normalizá-lo.
-| CPF | 20 | 30 | 11 | CPF do beneficiário
-| Cartão | 31 | 42 | 12 | Cartão utilizado na transação 
-| Hora  | 43 | 48 | 6 | Hora da ocorrência atendendo ao fuso de UTC-3
-| Dono da loja | 49 | 62 | 14 | Nome do representante da loja
-| Nome loja | 63 | 81 | 19 | Nome da loja
+1 - Vá até a pasta api
 
-# Documentação sobre os tipos das transações
+```bash
+cd api
+```
 
-| Tipo | Descrição | Natureza | Sinal |
-| ---- | -------- | --------- | ----- |
-| 1 | Débito | Entrada | + |
-| 2 | Boleto | Saída | - |
-| 3 | Financiamento | Saída | - |
-| 4 | Crédito | Entrada | + |
-| 5 | Recebimento Empréstimo | Entrada | + |
-| 6 | Vendas | Entrada | + |
-| 7 | Recebimento TED | Entrada | + |
-| 8 | Recebimento DOC | Entrada | + |
-| 9 | Aluguel | Saída | - |
+2 - Exporte as variáveis de ambiente através de um arquivo ou utilizando export
 
-# Avaliação
+| Nome              | Descrição                 | Obrigatoriedade |
+| ----------------- | ------------------------- | --------------- |
+| DATABASE_NAME     | Nome do bando de dados    | &#9745;         |
+| DATABASE_USER     | Usuário do banco de dados | &#9745;         |
+| DATABASE_PASSWORD | Senha do banco de dados   | &#9745;         |
+| DATABASE_HOST     | Host do banco de dados    | &#9745;         |
+| DATABASE_PORT     | Porta do banco de dados   | &#9745;         |
+| SECRET_KEY        | Django Secret Key         | &#9745;         |
 
-Seu projeto será avaliado de acordo com os seguintes critérios.
+3 - Crie um ambiente virtual
 
-1. Sua aplicação preenche os requerimentos básicos?
-2. Você documentou a maneira de configurar o ambiente e rodar sua aplicação?
-3. Você seguiu as instruções de envio do desafio?
-4. Qualidade e cobertura dos testes unitários.
+```bash
+python3 -m venv ./venv
+```
 
-Adicionalmente, tentaremos verificar a sua familiarização com as bibliotecas padrões (standard libs), bem como sua experiência com programação orientada a objetos a partir da estrutura de seu projeto.
+4 - Ative seu ambiente virtual
 
-# Referência
+```bash
+source venv/bin/activate
+```
 
-Este desafio foi baseado neste outro desafio: https://github.com/lschallenges/data-engineering
+5 - Instale as dependencias do projeto
 
----
+```bash
+pip install -r requirements.txt
+```
 
-Boa sorte!
+6 - Para criar o banco de dados
+
+```bash
+python manage.py migrate
+```
+
+7 - Para rodar
+
+```bash
+python manage.py runserver
+```
+
+8 - agora abra outra aba em seu terminal e vá até a pasta ui
+
+```bash
+cd ui
+```
+
+9 - Instale as dependências do frontend
+
+```bash
+npm install
+```
+
+9 - Rode o frontend
+
+```bash
+npm start
+```
+
+#### Agora o seu frontend está na porta 3000 e sua api na porta 8000
+
+## **🚧 API**
+
+Nosso backend é constituido de 1 API (finances) e uma conexão com serviço externo (Cognito).
+
+### **Autenticação**
+
+Foi escolhido o Cognito para autenticação OAuth2 pois é um serviço extremamente robusto feito pela AWS, estou disponibilizando um usuário criado na minha conta da AWS com poucas permissões no Cognito para teste desta aplicação, as rotas autenticadas deverão ser acessadas com um JWT fornecido pelo serviço com préfixo Bearer.
+
+### **API de Finances**
+
+A Api foi feita para converter um arquivo txt em dados salvos no nosso banco de dados e para buscar os dados desse banco de dados. Não foram seguidos todos os protocolos RESTFul devido ao tempo de desenvolvimento e as necessidades.
+
+- ### Rota para adicionar um novo documento [POST]
+
+      url: /finances
+
+  - Response
+
+        data: [{
+          "type": 3,
+          "date": "2019-03-01",
+          "value": 142.0,
+          "document_number": "09620676017",
+          "card_number": "4753****3153",
+          "time": "15:34:53",
+          "owner_name": "JOÃO MACEDO",
+          "store_name": "BAR DO JOÃO"
+        }],
+        "total_amount": -142.0
+
+- ### Rota para recuperar os dados do BD [GET]
+
+      url: /finances
+
+  - Response
+
+          "id": "ad411901-ad95-446c-8930-baebd8de5b67",
+          "data: [
+              {
+                  "type": 3,
+                  "date": "2019-03-01",
+                  "value": 142.0,
+                  "document_number": "09620676017",
+                  "card_number": "4753****3153",
+                  "time": "15:34:53",
+                  "owner_name": "JOÃO MACEDO",
+                  "store_name": "BAR DO JOÃO"
+              }
+          ],
+          "total_amount": -142.0
+          "createdAt": "2022-10-29T12:24:20.830Z",
+          "updatedAt": "2022-10-29T12:24:20.830Z",
+
+## **☂️ Client**
+
+O Frontend desta aplicação foi utilizado React e é composto de 7 telas com layout simples porém eficiente. Foi utilizado praticamente 100% de recursos nativos do próprio node e React.
+
+Para rodar os testes
+
+```bash
+yarn test
+```
+
+## Features que agregariam muito valor ao projeto
+
+- Criação de um Terraform para criação do Cognito e deploy do Frontend no s3 e Cloudfront
+- Integração do backend com Zappa para rodar Serverless na AWS
+- Aumentar cobertura de testes da API
