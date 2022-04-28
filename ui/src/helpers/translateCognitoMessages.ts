@@ -10,5 +10,7 @@ export const translateCognitoMesssages = (message: string) => {
       return "A senha deverá conter números"
     case "Password did not conform with policy: Password must have symbol characters":
       return "A senha deverá conter caractéres especiais"
+    default:
+      return "Ocorreu um erro"
   }
 }
